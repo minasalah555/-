@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماراثون الغبقة البحرينية 🌙</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #2d1854 50%, #4a1c5c 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* خلفية متحركة بالنجوم */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* فوانيس متحركة */
+        .lantern {
+            position: fixed;
+            font-size: 40px;
+            animation: sway 4s ease-in-out infinite;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        
+        @keyframes sway {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(20px) rotate(5deg); }
+        }
+        
+        /* Container رئيسي */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* شاشة الترحيب */
+        .welcome-screen {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        h1 {
+            color: #ffd700;
+            font-size: 48px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        
+        .subtitle {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* الأزرار */
+        .btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* شاشة التسجيل */
+        .registration-screen {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .registration-screen h2 {
+            color: #2d1854;
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .team-input {
+            margin-bottom: 30px;
+        }
+        
+        .team-input label {
+            display: block;
+            color: #4a1c5c;
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .team-input input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 3px solid #ff8e53;
+            border-radius: 15px;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .team-input input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        /* شريط النقاط */
+        .scoreboard {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .team-score {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .team-name {
+            font-size: 20px;
+            color: #2d1854;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .score {
+            font-size: 48px;
+            color: #ff6b6b;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* بطاقة السؤال */
+        .question-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            animation: popIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+        
+        .section-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 16px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question-number {
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            color: #2d1854;
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        
+        /* خيارات الإجابة */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .option {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            color: #2d1854;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            transform: translateX(-5px);
+            border-color: #ff8e53;
+            box-shadow: 0 5px 20px rgba(255, 142, 83, 0.3);
+        }
+        
+        .option.correct {
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
+            color: white;
+            border-color: #2F80ED;
+            animation: correctPulse 0.6s ease;
+        }
+        
+        .option.wrong {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border-color: #ee5a6f;
+            animation: wrongShake 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.3);
+            height: 10px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ffd700);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* زر التالي */
+        .next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin-top: 30px;
+            width: 100%;
+            padding: 18px;
+            font-size: 22px;
+        }
+        
+        /* شاشة النهاية */
+        .winner-screen {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease;
+        }
+        
+        .winner-screen h2 {
+            color: #ffd700;
+            font-size: 56px;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+            animation: bounce 2s infinite;
+        }
+        
+        .winner-name {
+            color: white;
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        
+        .final-scores {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 30px auto;
+            max-width: 500px;
+        }
+        
+        .final-score-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f5f7fa;
+            border-radius: 15px;
+            font-size: 24px;
+            color: #2d1854;
+            font-weight: 700;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
+            margin-top: 30px;
+        }
+        
+        /* مخفي */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* نص الإجابة الصحيحة */
+        .answer-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .answer-feedback.correct {
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
+            color: white;
+        }
+        
+        .answer-feedback.wrong {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+        }
+        
+        /* أسئلة التصويت */
+        .vote-section {
+            margin-top: 20px;
+        }
+        
+        .vote-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .vote-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .vote-btn.team1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .vote-btn.team2 {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+        }
+        
+        .vote-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* أسئلة التقدير */
+        .estimate-input {
+            margin-top: 20px;
+        }
+        
+        .estimate-fields {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .estimate-field {
+            flex: 1;
+        }
+        
+        .estimate-field label {
+            display: block;
+            color: #2d1854;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .estimate-field input {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid #ff8e53;
+            border-radius: 10px;
+            font-size: 18px;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .estimate-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f7fa;
+            border-radius: 10px;
+            color: #2d1854;
+            font-weight: 600;
+        }
+        
+        /* Timer للبطاقات السريعة */
+        .timer {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .timer.warning {
+            animation: timerPulse 0.5s infinite;
+        }
+        
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; }
+            .subtitle { font-size: 18px; }
+            .question-text { font-size: 22px; }
+            .option { font-size: 18px; }
+            .btn { font-size: 20px; padding: 15px 40px; }
+            .registration-screen { padding: 30px 20px; }
+            .question-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- النجوم المتحركة -->
+    <div class="stars" id="starsContainer"></div>
+    
+    <!-- الفوانيس -->
+    <div class="lantern" style="top: 10%; right: 5%;">🏮</div>
+    <div class="lantern" style="top: 15%; left: 5%; animation-delay: 1s;">🏮</div>
+    <div class="lantern" style="top: 70%; right: 10%; animation-delay: 2s;">🏮</div>
+    
+    <div class="container">
+        <!-- شاشة الترحيب -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="logo">🌙✨🏮</div>
+            <h1>ماراثون الغبقة البحرينية</h1>
+            <p class="subtitle">مسابقة رمضانية تفاعلية للشباب</p>
+            <button class="btn" onclick="startGame()">
+                <span style="position: relative; z-index: 1;">ابدأ اللعبة 🎯</span>
+            </button>
+        </div>
+        
+        <!-- شاشة التسجيل -->
+        <div id="registrationScreen" class="registration-screen hidden">
+            <h2>🎮 سجّل الفرق</h2>
+            <div class="team-input">
+                <label>اسم الفريق الأول 🏆</label>
+                <input type="text" id="team1Name" placeholder="مثال: فريق النجوم" maxlength="20">
+            </div>
+            <div class="team-input">
+                <label>اسم الفريق الثاني 🏆</label>
+                <input type="text" id="team2Name" placeholder="مثال: فريق الهلال" maxlength="20">
+            </div>
+            <button class="btn" onclick="registerTeams()">
+                <span style="position: relative; z-index: 1;">ابدأ المنافسة 🚀</span>
+            </button>
+        </div>
+        
+        <!-- شاشة اللعب -->
+        <div id="gameScreen" class="hidden">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- شريط النقاط -->
+            <div class="scoreboard">
+                <div class="team-score">
+                    <div class="team-name" id="team1NameDisplay">الفريق 1</div>
+                    <div class="score" id="team1Score">0</div>
+                </div>
+                <div style="font-size: 40px; align-self: center;">⚡</div>
+                <div class="team-score">
+                    <div class="team-name" id="team2NameDisplay">الفريق 2</div>
+                    <div class="score" id="team2Score">0</div>
+                </div>
+            </div>
+            
+            <!-- بطاقة السؤال -->
+            <div class="question-card" id="questionCard">
+                <div class="section-badge" id="sectionBadge">القسم الأول</div>
+                <div class="question-number" id="questionNumber">السؤال 1 من 50</div>
+                <div class="question-text" id="questionText"></div>
+                
+                <!-- Timer للبطاقات السريعة -->
+                <div class="timer hidden" id="timer">⏱️ 10</div>
+                
+                <!-- الخيارات -->
+                <div class="options" id="optionsContainer"></div>
+                
+                <!-- أسئلة التصويت -->
+                <div class="vote-section hidden" id="voteSection">
+                    <div class="vote-buttons">
+                        <button class="vote-btn team1" onclick="voteForTeam(1)">
+                            <span id="voteTeam1Name">الفريق 1</span> 🏆
+                        </button>
+                        <button class="vote-btn team2" onclick="voteForTeam(2)">
+                            <span id="voteTeam2Name">الفريق 2</span> 🏆
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- أسئلة التقدير -->
+                <div class="estimate-input hidden" id="estimateSection">
+                    <div class="estimate-fields">
+                        <div class="estimate-field">
+                            <label id="estimateLabel1">تقدير الفريق 1</label>
+                            <input type="number" id="estimateTeam1" placeholder="أدخل التقدير">
+                        </div>
+                        <div class="estimate-field">
+                            <label id="estimateLabel2">تقدير الفريق 2</label>
+                            <input type="number" id="estimateTeam2" placeholder="أدخل التقدير">
+                        </div>
+                    </div>
+                    <button class="btn" style="margin-top: 20px;" onclick="submitEstimate()">
+                        <span style="position: relative; z-index: 1;">تأكيد التقدير ✅</span>
+                    </button>
+                    <div class="estimate-result hidden" id="estimateResult"></div>
+                </div>
+                
+                <!-- Feedback -->
+                <div class="answer-feedback hidden" id="answerFeedback"></div>
+                
+                <!-- زر التالي -->
+                <button class="btn next-btn hidden" id="nextBtn" onclick="nextQuestion()">
+                    <span style="position: relative; z-index: 1;">السؤال التالي ⬅️</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- شاشة النهاية -->
+        <div id="winnerScreen" class="winner-screen hidden">
+            <h2>🎉 مبروك للفائز 🎉</h2>
+            <div class="winner-name" id="winnerName"></div>
+            <div class="final-scores">
+                <div class="final-score-item">
+                    <span id="finalTeam1Name">الفريق 1</span>
+                    <span id="finalTeam1Score">0</span>
+                </div>
+                <div class="final-score-item">
+                    <span id="finalTeam2Name">الفريق 2</span>
+                    <span id="finalTeam2Score">0</span>
+                </div>
+            </div>
+            <button class="btn restart-btn" onclick="location.reload()">
+                <span style="position: relative; z-index: 1;">ابدأ لعبة جديدة 🔄</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // توليد النجوم
+        function createStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+        
+        // المؤثرات الصوتية
+        const sounds = {
+            click: () => playBeep(200, 0.1, 'sine'),
+            correct: () => playBeep(600, 0.3, 'sine'),
+            wrong: () => playBeep(150, 0.3, 'sawtooth'),
+            win: () => {
+                playBeep(400, 0.2, 'sine');
+                setTimeout(() => playBeep(500, 0.2, 'sine'), 200);
+                setTimeout(() => playBeep(600, 0.4, 'sine'), 400);
+            }
+        };
+        
+        function playBeep(frequency, duration, type = 'sine') {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration);
+        }
+        
+        // بيانات اللعبة
+        let gameData = {
+            team1: { name: '', score: 0 },
+            team2: { name: '', score: 0 },
+            currentQuestionIndex: 0,
+            currentTurn: 1, // 1 = team1, 2 = team2
+            timerInterval: null
+        };
+        
+        // الأسئلة
+        const questions = [
+            // القسم الأول: كلمات بحرينية
+            {
+                section: 'القسم الأول: كلمات بحرينية صعبة',
+                type: 'mcq',
+                question: 'شنو معنى: (يزقّر)؟',
+                options: ['يضحك', 'يزعل', 'يصرخ بصوت عالي'],
+                correct: 2
+            },
+            {
+                section: 'القسم الأول: كلمات بحرينية صعبة',
+                type: 'mcq',
+                question: 'شنو معنى: (متلعوز)؟',
+                options: ['متسخ', 'جوعان', 'معصب'],
+                correct: 0
+            },
+            {
+                section: 'القسم الأول: كلمات بحرينية صعبة',
+                type: 'mcq',
+                question: 'شنو معنى: (مهلوك)؟',
+                options: ['متعب واجد', 'ذكي', 'سريع'],
+                correct: 0
+            },
+            {
+                section: 'القسم الأول: كلمات بحرينية صعبة',
+                type: 'mcq',
+                question: 'شنو معنى: (ملهوف)؟',
+                options: ['متكسر', 'متشوق', 'مرتب'],
+                correct: 1
+            },
+            
+            // القسم الثاني: صح أو غلط
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'الهريس كل ما طول على النار يطلع أطيب',
+                correct: 0 // صح
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'الثريد ينأكل بدون لحم',
+                correct: 1 // غلط
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'المجبوس البحريني يختلف عن الكويتي',
+                correct: 0
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'الكباب البحريني لازم يتقلى بزيت غزير',
+                correct: 1
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'اللقيمات تتشرب الدبس أو القطر',
+                correct: 0
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'الخنفروش ينحط فيه زعفران',
+                correct: 0
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'المهياوة تنأكل بروحها بدون خبز',
+                correct: 1
+            },
+            {
+                section: 'القسم الثاني: صح أو غلط – أكل رمضاني',
+                type: 'true_false',
+                question: 'التشريب نفس الثريد بالضبط',
+                correct: 1
+            },
+            
+            // القسم الثالث: أسئلة اختيار
+            {
+                section: 'القسم الثالث: أسئلة اختيار من متعدد',
+                type: 'mcq',
+                question: 'شنو أول شي ينأكل على السفرة؟',
+                options: ['العيش', 'التمر', 'الحلا'],
+                correct: 1
+            },
+            {
+                section: 'القسم الثالث: أسئلة اختيار من متعدد',
+                type: 'mcq',
+                question: 'أفضل وقت للقهوة؟',
+                options: ['قبل الفطور', 'بعد الفطور أو التراويح', 'السحور'],
+                correct: 1
+            },
+            {
+                section: 'القسم الثالث: أسئلة اختيار من متعدد',
+                type: 'mcq',
+                question: 'إذا واحد شبع زيادة؟',
+                options: ['يكمل أكل', 'يوقف ويخفف', 'ينام فورًا'],
+                correct: 1
+            },
+            {
+                section: 'القسم الثالث: أسئلة اختيار من متعدد',
+                type: 'mcq',
+                question: 'شنو أكثر شي يخلّي الصيام ثقيل؟',
+                options: ['السهر', 'الأكل الثقيل بالليل', 'الشوربة'],
+                correct: 1
+            },
+            
+            // القسم الرابع: منو أكثر
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر يتأخر عن الفطور؟'
+            },
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر يقول «خلاص شبعت»؟'
+            },
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر يحب الغبقات؟'
+            },
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر ما يقدر بدون قهوة؟'
+            },
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر ينام بعد التراويح؟'
+            },
+            {
+                section: 'القسم الرابع: "منو أكثر؟" – تصويت',
+                type: 'vote',
+                question: 'منو أكثر يحب الحلويات برمضان؟'
+            },
+            
+            // القسم الخامس: وش الأقرب
+            {
+                section: 'القسم الخامس: وش الأقرب؟ (تقدير)',
+                type: 'estimate',
+                question: 'كم دقيقة بين الأذان والإقامة؟',
+                correctAnswer: 15
+            },
+            {
+                section: 'القسم الخامس: وش الأقرب؟ (تقدير)',
+                type: 'estimate',
+                question: 'كم نوع أكل عادة يكون على السفرة؟',
+                correctAnswer: 7
+            },
+            {
+                section: 'القسم الخامس: وش الأقرب؟ (تقدير)',
+                type: 'estimate',
+                question: 'كم شخص يحضر الغبقة؟',
+                correctAnswer: 20
+            },
+            {
+                section: 'القسم الخامس: وش الأقرب؟ (تقدير)',
+                type: 'estimate',
+                question: 'كم كوب قهوة يشرب بالغبقة؟',
+                correctAnswer: 3
+            },
+            
+            // القسم السادس: فوازير
+            {
+                section: 'القسم السادس: فوازير رمضانية',
+                type: 'mcq',
+                question: 'شي كل ما كبر صغر؟',
+                options: ['العمر', 'الشمعة', 'البالون'],
+                correct: 0
+            },
+            {
+                section: 'القسم السادس: فوازير رمضانية',
+                type: 'mcq',
+                question: 'شي تشوفه وما تقدر تمسكه؟',
+                options: ['النار', 'الظل', 'الضوء'],
+                correct: 1
+            },
+            {
+                section: 'القسم السادس: فوازير رمضانية',
+                type: 'mcq',
+                question: 'شي يفطر الصايم بدون أكل؟',
+                options: ['الماء', 'الدعاء', 'النوم'],
+                correct: 1
+            },
+            {
+                section: 'القسم السادس: فوازير رمضانية',
+                type: 'mcq',
+                question: 'شهر يمر بسرعة بس نشتاق له؟',
+                options: ['رمضان', 'شعبان', 'ذو الحجة'],
+                correct: 0
+            },
+            
+            // القسم السابع: بطاقات سريعة
+            {
+                section: 'القسم السابع: بطاقات سريعة (10 ثواني)',
+                type: 'speed',
+                question: 'سمّي 5 أكلات رمضانية',
+                time: 10
+            },
+            {
+                section: 'القسم السابع: بطاقات سريعة (10 ثواني)',
+                type: 'speed',
+                question: 'قول 4 كلمات بحرينية صعبة',
+                time: 10
+            },
+            {
+                section: 'القسم السابع: بطاقات سريعة',
+                type: 'speed',
+                question: 'اذكر ٥ عبادات في شهر رمضان خلال ١٠ ثوان',
+                time: 10
+            },
+            {
+                section: 'القسم السابع: بطاقات سريعة (10 ثواني)',
+                type: 'speed',
+                question: 'غبقة عوايل أو ربع؟ وليش؟',
+                time: 10
+            },
+            {
+                section: 'القسم السابع: بطاقات سريعة (10 ثواني)',
+                type: 'speed',
+                question: 'سمّي عادة رمضانية بحرينية',
+                time: 10
+            },
+            {
+                section: 'القسم السابع: بطاقات سريعة (10 ثواني)',
+                type: 'speed',
+                question: 'سمّي أكلة ما تحبها برمضان',
+                time: 10
+            }
+        ];
+        
+        // بداية اللعبة
+        function startGame() {
+            sounds.click();
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('registrationScreen').classList.remove('hidden');
+        }
+        
+        // تسجيل الفرق
+        function registerTeams() {
+            const team1Name = document.getElementById('team1Name').value.trim();
+            const team2Name = document.getElementById('team2Name').value.trim();
+            
+            if (!team1Name || !team2Name) {
+                alert('الرجاء إدخال اسم الفريقين!');
+                return;
+            }
+            
+            gameData.team1.name = team1Name;
+            gameData.team2.name = team2Name;
+            
+            document.getElementById('team1NameDisplay').textContent = team1Name;
+            document.getElementById('team2NameDisplay').textContent = team2Name;
+            document.getElementById('voteTeam1Name').textContent = team1Name;
+            document.getElementById('voteTeam2Name').textContent = team2Name;
+            document.getElementById('estimateLabel1').textContent = `تقدير ${team1Name}`;
+            document.getElementById('estimateLabel2').textContent = `تقدير ${team2Name}`;
+            
+            sounds.click();
+            document.getElementById('registrationScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            
+            showQuestion();
+        }
+        
+        // عرض السؤال
+        function showQuestion() {
+            const q = questions[gameData.currentQuestionIndex];
+            const total = questions.length;
+            
+            // تحديث Progress Bar
+            const progress = ((gameData.currentQuestionIndex + 1) / total) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // تحديث بيانات السؤال
+            document.getElementById('sectionBadge').textContent = q.section;
+            document.getElementById('questionNumber').textContent = `السؤال ${gameData.currentQuestionIndex + 1} من ${total}`;
+            document.getElementById('questionText').textContent = q.question;
+            
+            // إخفاء جميع الأقسام
+            document.getElementById('optionsContainer').innerHTML = '';
+            document.getElementById('voteSection').classList.add('hidden');
+            document.getElementById('estimateSection').classList.add('hidden');
+            document.getElementById('timer').classList.add('hidden');
+            document.getElementById('answerFeedback').classList.add('hidden');
+            document.getElementById('nextBtn').classList.add('hidden');
+            
+            // عرض حسب النوع
+            if (q.type === 'mcq' || q.type === 'true_false') {
+                showMCQ(q);
+            } else if (q.type === 'vote') {
+                showVote(q);
+            } else if (q.type === 'estimate') {
+                showEstimate(q);
+            } else if (q.type === 'speed') {
+                showSpeed(q);
+            }
+        }
+        
+        // عرض اختيار من متعدد
+        function showMCQ(q) {
+            const container = document.getElementById('optionsContainer');
+            const options = q.type === 'true_false' ? ['صح ✅', 'غلط ❌'] : q.options;
+            
+            options.forEach((option, index) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.textContent = option;
+                div.onclick = () => selectAnswer(index, q.correct);
+                container.appendChild(div);
+            });
+        }
+        
+        // اختيار إجابة
+        function selectAnswer(selected, correct) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                options[selected].classList.add('correct');
+                sounds.correct();
+                
+                // إضافة نقطة للفريق الحالي
+                if (gameData.currentTurn === 1) {
+                    gameData.team1.score++;
+                    document.getElementById('team1Score').textContent = gameData.team1.score;
+                } else {
+                    gameData.team2.score++;
+                    document.getElementById('team2Score').textContent = gameData.team2.score;
+                }
+                
+                showFeedback('إجابة صحيحة! 🎉', 'correct');
+            } else {
+                options[selected].classList.add('wrong');
+                options[correct].classList.add('correct');
+                sounds.wrong();
+                showFeedback('إجابة خاطئة! ❌', 'wrong');
+            }
+            
+            // تبديل الدور
+            gameData.currentTurn = gameData.currentTurn === 1 ? 2 : 1;
+            
+            document.getElementById('nextBtn').classList.remove('hidden');
+        }
+        
+        // عرض التصويت
+        function showVote(q) {
+            document.getElementById('voteSection').classList.remove('hidden');
+        }
+        
+        function voteForTeam(team) {
+            sounds.click();
+            if (team === 1) {
+                gameData.team1.score++;
+                document.getElementById('team1Score').textContent = gameData.team1.score;
+            } else {
+                gameData.team2.score++;
+                document.getElementById('team2Score').textContent = gameData.team2.score;
+            }
+            
+            showFeedback(`تم منح نقطة لـ ${team === 1 ? gameData.team1.name : gameData.team2.name} 🏆`, 'correct');
+            document.getElementById('voteSection').classList.add('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+        }
+        
+        // عرض التقدير
+        function showEstimate(q) {
+            document.getElementById('estimateSection').classList.remove('hidden');
+            document.getElementById('estimateTeam1').value = '';
+            document.getElementById('estimateTeam2').value = '';
+            document.getElementById('estimateResult').classList.add('hidden');
+        }
+        
+        function submitEstimate() {
+            const q = questions[gameData.currentQuestionIndex];
+            const est1 = parseInt(document.getElementById('estimateTeam1').value);
+            const est2 = parseInt(document.getElementById('estimateTeam2').value);
+            
+            if (isNaN(est1) || isNaN(est2)) {
+                alert('الرجاء إدخال تقديرات صحيحة!');
+                return;
+            }
+            
+            sounds.click();
+            
+            const diff1 = Math.abs(est1 - q.correctAnswer);
+            const diff2 = Math.abs(est2 - q.correctAnswer);
+            
+            let result = '';
+            if (diff1 < diff2) {
+                gameData.team1.score++;
+                document.getElementById('team1Score').textContent = gameData.team1.score;
+                result = `${gameData.team1.name} أقرب! الإجابة الصحيحة: ${q.correctAnswer}`;
+            } else if (diff2 < diff1) {
+                gameData.team2.score++;
+                document.getElementById('team2Score').textContent = gameData.team2.score;
+                result = `${gameData.team2.name} أقرب! الإجابة الصحيحة: ${q.correctAnswer}`;
+            } else {
+                gameData.team1.score++;
+                gameData.team2.score++;
+                document.getElementById('team1Score').textContent = gameData.team1.score;
+                document.getElementById('team2Score').textContent = gameData.team2.score;
+                result = `تعادل! الإجابة الصحيحة: ${q.correctAnswer}`;
+            }
+            
+            document.getElementById('estimateResult').textContent = result;
+            document.getElementById('estimateResult').classList.remove('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+        }
+        
+        // عرض البطاقات السريعة
+        function showSpeed(q) {
+            const timerEl = document.getElementById('timer');
+            timerEl.classList.remove('hidden');
+            
+            let timeLeft = q.time;
+            timerEl.textContent = `⏱️ ${timeLeft}`;
+            
+            gameData.timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = `⏱️ ${timeLeft}`;
+                
+                if (timeLeft <= 3) {
+                    timerEl.classList.add('warning');
+                    sounds.click();
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(gameData.timerInterval);
+                    timerEl.classList.remove('warning');
+                    showFeedback('انتهى الوقت! ⏰', 'wrong');
+                    document.getElementById('nextBtn').classList.remove('hidden');
+                }
+            }, 1000);
+            
+            // زر الإجابة
+            const container = document.getElementById('optionsContainer');
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.innerHTML = '<span style="position: relative; z-index: 1;">تم الإجابة ✅</span>';
+            btn.onclick = () => {
+                clearInterval(gameData.timerInterval);
+                sounds.correct();
+                
+                // إضافة نقطة للفريق الحالي
+                if (gameData.currentTurn === 1) {
+                    gameData.team1.score++;
+                    document.getElementById('team1Score').textContent = gameData.team1.score;
+                } else {
+                    gameData.team2.score++;
+                    document.getElementById('team2Score').textContent = gameData.team2.score;
+                }
+                
+                gameData.currentTurn = gameData.currentTurn === 1 ? 2 : 1;
+                
+                showFeedback('تم احتساب النقطة! 🎯', 'correct');
+                btn.disabled = true;
+                document.getElementById('nextBtn').classList.remove('hidden');
+            };
+            container.appendChild(btn);
+        }
+        
+        // عرض Feedback
+        function showFeedback(message, type) {
+            const feedback = document.getElementById('answerFeedback');
+            feedback.textContent = message;
+            feedback.className = `answer-feedback ${type}`;
+            feedback.classList.remove('hidden');
+        }
+        
+        // السؤال التالي
+        function nextQuestion() {
+            sounds.click();
+            gameData.currentQuestionIndex++;
+            
+            if (gameData.currentQuestionIndex >= questions.length) {
+                showWinner();
+            } else {
+                showQuestion();
+            }
+        }
+        
+        // عرض الفائز
+        function showWinner() {
+            sounds.win();
+            
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('winnerScreen').classList.remove('hidden');
+            
+            const winner = gameData.team1.score > gameData.team2.score ? gameData.team1.name :
+                          gameData.team2.score > gameData.team1.score ? gameData.team2.name :
+                          'تعادل! 🤝';
+            
+            document.getElementById('winnerName').textContent = winner;
+            document.getElementById('finalTeam1Name').textContent = gameData.team1.name;
+            document.getElementById('finalTeam1Score').textContent = gameData.team1.score;
+            document.getElementById('finalTeam2Name').textContent = gameData.team2.name;
+            document.getElementById('finalTeam2Score').textContent = gameData.team2.score;
+        }
+    </script>
+</body>
+</html>
